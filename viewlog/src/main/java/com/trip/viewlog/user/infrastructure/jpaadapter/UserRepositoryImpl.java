@@ -17,4 +17,14 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(Long id) {
         return userJpaRepository.findById(id).map(UserEntity::toModel);
     }
+
+    @Override
+    public Optional<User> findByOauthInfo(String oauthInfo) {
+        return userJpaRepository.findByOauthInfo(oauthInfo).map(UserEntity::toModel);
+    }
+
+    @Override
+    public void save(User user) {
+        userJpaRepository.save(UserEntity.from(user));
+    }
 }

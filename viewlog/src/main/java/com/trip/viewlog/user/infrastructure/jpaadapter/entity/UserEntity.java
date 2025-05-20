@@ -11,6 +11,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String role;
+
+    private String oauthInfo;
+
     private String name;
 
     private String email;
@@ -18,6 +22,8 @@ public class UserEntity {
     public static UserEntity from(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.id = user.getId();
+        userEntity.role = user.getRole();
+        userEntity.oauthInfo = user.getOauthInfo();
         userEntity.name = user.getName();
         userEntity.email = user.getEmail();
         return userEntity;
@@ -26,6 +32,8 @@ public class UserEntity {
     public User toModel() {
         return User.builder()
                 .id(id)
+                .role(role)
+                .oauthInfo(oauthInfo)
                 .name(name)
                 .email(email)
                 .build();
