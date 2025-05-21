@@ -31,7 +31,6 @@ public class JWTFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             authorization = authorizationHeader.substring(7);
         }
-        System.out.println(authorization);
         //Authorization 헤더 검증
         if (authorization == null) {
 
