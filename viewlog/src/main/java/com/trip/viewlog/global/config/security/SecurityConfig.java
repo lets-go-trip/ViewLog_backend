@@ -80,6 +80,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(
+                                "/api/posts/**",
                                 "/api/attractions/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
