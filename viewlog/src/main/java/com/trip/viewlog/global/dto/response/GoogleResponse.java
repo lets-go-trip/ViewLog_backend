@@ -2,7 +2,7 @@ package com.trip.viewlog.global.dto.response;
 
 import java.util.Map;
 
-public class GoogleResponse implements OAuth2Response{
+public class GoogleResponse implements OAuth2Response {
 
     private final Map<String, Object> attribute;
 

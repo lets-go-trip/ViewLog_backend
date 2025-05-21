@@ -33,8 +33,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-
-        String token = jwtUtil.createJwt(oauthInfo, role, 60*60*60L);
+        String name = customUserDetails.getName();
+        
+        String token = jwtUtil.createJwt(oauthInfo, name, role, 3*60*60L);
         String redirectUrl = "http://localhost:5173/login?token=" + token;
 
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);

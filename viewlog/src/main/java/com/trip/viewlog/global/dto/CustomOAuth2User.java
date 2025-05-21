@@ -1,5 +1,6 @@
 package com.trip.viewlog.global.dto;
 
+
 import com.trip.viewlog.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -24,14 +24,14 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+    	
         //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorizationHeader = request.getHeader("Authorization");
         String authorization = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             authorization = authorizationHeader.substring(7);
         }
-
+        System.out.println(authorization);
         //Authorization 헤더 검증
         if (authorization == null) {
 
