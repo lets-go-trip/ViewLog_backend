@@ -1,15 +1,17 @@
-package com.trip.viewlog.attraction.controller;
+package com.trip.Attraction.controller;
 
-import com.trip.viewlog.attraction.controller.inputport.AttractionService;
-import com.trip.viewlog.attraction.controller.response.AttractionResponse;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.trip.Attraction.controller.inputport.AttractionService;
+import com.trip.Attraction.controller.response.AttractionResponse;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/attractions")
@@ -24,7 +26,6 @@ public class AttractionController {
         @RequestParam double lng,
         @RequestParam(required = false) Integer contentTypeId
     ) {
-    	System.out.println(lat + " : " + lng + " : " + contentTypeId);
     	List<AttractionResponse> result = attractionService.findAttractionsNearby(lat, lng, contentTypeId);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();

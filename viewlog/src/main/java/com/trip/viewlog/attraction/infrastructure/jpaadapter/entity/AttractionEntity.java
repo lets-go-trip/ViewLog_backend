@@ -1,18 +1,35 @@
-package com.trip.viewlog.attraction.infrastructure.jpaadapter.entity;
+package com.trip.Attraction.infrastructure.jpaadapter.entity;
 
-import com.trip.viewlog.attraction.domain.Attraction;
-import jakarta.persistence.*;
+import com.trip.Attraction.domain.Attraction;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "attractions")
+@NoArgsConstructor
+@AllArgsConstructor
 public class AttractionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer no;
+    @Column(name = "no")
+    private Integer id;
 
     @Column(name = "content_id")
     private Integer contentId;
+    
+    @Column(length = 500)
+    private String title;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "content_type_id", referencedColumnName = "content_type_id")
@@ -23,9 +40,6 @@ public class AttractionEntity {
 
     @Column(name = "si_gun_gu_code")
     private Integer siGunGuCode;
-
-    @Column(length = 500)
-    private String title;
 
     @Column(name = "first_image1", length = 100)
     private String firstImage1;
@@ -57,9 +71,9 @@ public class AttractionEntity {
     
     public static AttractionEntity from(Attraction attraction) {
     	AttractionEntity entity = new AttractionEntity();
-        entity.no = attraction.getNo(); // optional
+        entity.id = attraction.getId(); // optional
         entity.contentId = attraction.getContentId();
-        entity.contentTypeEntity = attraction.getContentTypeEntity();
+        entity.contentTypeEntity = ContentTypeEntity.from(attraction.getContentType());
         entity.areaCode = attraction.getAreaCode();
         entity.siGunGuCode = attraction.getSiGunGuCode();
         entity.title = attraction.getTitle();
@@ -79,9 +93,9 @@ public class AttractionEntity {
     
     public Attraction toModel() {
         return Attraction.builder()
-            .no(no)
+            .id(id)
             .contentId(contentId)
-            .contentTypeEntity(contentTypeEntity)
+            .contentType(contentTypeEntity.toModel())
             .areaCode(areaCode)
             .siGunGuCode(siGunGuCode)
             .title(title)

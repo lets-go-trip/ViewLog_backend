@@ -1,8 +1,8 @@
-package com.trip.viewlog.attraction.application.outputport;
-
-import com.trip.viewlog.attraction.domain.Attraction;
+package com.trip.Attraction.application.outputport;
 
 import java.util.List;
+
+import com.trip.Attraction.domain.Attraction;
 
 public interface AttractionRepository {
 	List<Attraction> findByLatitudeBetweenAndLongitudeBetween(double minLat, double maxLat, double minLng, double maxLng);

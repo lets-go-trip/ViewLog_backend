@@ -1,8 +1,8 @@
-package com.trip.viewlog.attraction.controller.inputport;
-
-import com.trip.viewlog.attraction.controller.response.AttractionResponse;
+package com.trip.Attraction.controller.inputport;
 
 import java.util.List;
+
+import com.trip.Attraction.controller.response.AttractionResponse;
 
 public interface AttractionService {
 	List<AttractionResponse> findAttractionsNearby(double lat, double lng, Integer contentTypeId);

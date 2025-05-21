@@ -1,6 +1,7 @@
-package com.trip.viewlog.attraction.controller.response;
+package com.trip.Attraction.controller.response;
 
-import com.trip.viewlog.attraction.domain.Attraction;
+import com.trip.Attraction.domain.Attraction;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AttractionResponse {
-	private Integer no;
+	private Integer id;
 	private Integer contentTypeId;
     private String title;
     private Double latitude;
@@ -25,8 +26,8 @@ public class AttractionResponse {
     
     public static AttractionResponse from(Attraction attraction) {
     	return AttractionResponse.builder()
-    			.no(attraction.getNo())
-                .contentTypeId(attraction.getContentTypeEntity().getContentTypeId())
+    			.id(attraction.getId())
+                .contentTypeId(attraction.getContentType().getId())
                 .title(attraction.getTitle())
                 .latitude(attraction.getLatitude())
                 .longitude(attraction.getLongitude())
@@ -36,7 +37,7 @@ public class AttractionResponse {
                 .addr2(attraction.getAddr2())
                 .homepage(attraction.getHomepage())
                 .overview(attraction.getOverview())
-                .category(attraction.getContentTypeEntity().getContentTypeName())
+                .category(attraction.getContentType().getName())
                 .build();
     }
 }

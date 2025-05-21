@@ -1,14 +1,13 @@
-package com.trip.viewlog.attraction.domain;
+package com.trip.Attraction.domain;
 
-import com.trip.viewlog.attraction.infrastructure.jpaadapter.entity.ContentTypeEntity;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class Attraction {
-	private Integer no;
+	private Integer id;
     private Integer contentId;
-    private ContentTypeEntity contentTypeEntity;
+    private ContentType contentType;
     private Integer areaCode;
     private Integer siGunGuCode;
     private String title;
@@ -24,14 +23,14 @@ public class Attraction {
     private String overview;
     
     @Builder
-	public Attraction(Integer no, Integer contentId, ContentTypeEntity contentTypeEntity, Integer areaCode,
+	public Attraction(Integer id, Integer contentId, ContentType contentType, Integer areaCode,
 			Integer siGunGuCode, String title, String firstImage1, String firstImage2, Integer mapLevel,
 			Double latitude, Double longitude, String tel, String addr1, String addr2, String homepage,
 			String overview) {
 		super();
-		this.no = no;
+		this.id = id;
 		this.contentId = contentId;
-		this.contentTypeEntity = contentTypeEntity;
+		this.contentType = contentType;
 		this.areaCode = areaCode;
 		this.siGunGuCode = siGunGuCode;
 		this.title = title;

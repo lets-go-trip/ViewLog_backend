@@ -1,10 +1,11 @@
-package com.trip.viewlog.attraction.infrastructure.jpaadapter;
+package com.trip.Attraction.infrastructure.jpaadapter;
 
-import com.trip.viewlog.attraction.infrastructure.jpaadapter.entity.AttractionEntity;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.trip.Attraction.infrastructure.jpaadapter.entity.AttractionEntity;
 
 public interface AttractionJpaRepository extends JpaRepository<AttractionEntity, Integer> {
 

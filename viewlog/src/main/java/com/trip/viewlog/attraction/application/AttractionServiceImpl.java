@@ -1,14 +1,16 @@
-package com.trip.viewlog.attraction.application;
-
-import com.trip.viewlog.attraction.application.outputport.AttractionRepository;
-import com.trip.viewlog.attraction.controller.inputport.AttractionService;
-import com.trip.viewlog.attraction.controller.response.AttractionResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+package com.trip.Attraction.application;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.trip.Attraction.application.outputport.AttractionRepository;
+import com.trip.Attraction.controller.inputport.AttractionService;
+import com.trip.Attraction.controller.response.AttractionResponse;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -28,60 +30,41 @@ public class AttractionServiceImpl implements AttractionService {
 		double minLng = lng - lngDelta;
 		double maxLng = lng + lngDelta;
 
-		return attractionRepository.findByLatitudeBetweenAndLongitudeBetween(minLat, maxLat, minLng, maxLng)
-				.stream()
-	            // contentTypeId 필터링 (전체일 땐 skip)
-	            .filter(e -> contentTypeId == null 
-	                    || e.getContentTypeEntity().getContentTypeId().equals(contentTypeId))
-	            .map(a ->  {
-	            	AttractionResponse res = AttractionResponse.from(a);
-	            	double dist = calculateDistance(lat, lng, a.getLatitude(), a.getLongitude());
-	            	res.setDistance(dist);
-	            	return res;
-	            })
-	            .filter(e -> e.getDistance() <= RADIUS_KM)
-	            .sorted(Comparator.comparing(AttractionResponse::getDistance))
-	            .limit(50)
-	            .collect(Collectors.toList());
+		return attractionRepository.findByLatitudeBetweenAndLongitudeBetween(minLat, maxLat, minLng, maxLng).stream()
+				// contentTypeId 필터링 (전체일 땐 skip)
+				.filter(e -> contentTypeId == null || e.getContentType().getId().equals(contentTypeId)).map(a -> {
+					AttractionResponse res = AttractionResponse.from(a);
+					double dist = calculateDistance(lat, lng, a.getLatitude(), a.getLongitude());
+					res.setDistance(dist);
+					return res;
+				}).filter(e -> e.getDistance() <= RADIUS_KM)
+				.sorted(Comparator.comparing(AttractionResponse::getDistance)).limit(50).collect(Collectors.toList());
 	}
 
 	public List<AttractionResponse> findAttractionsByAddressKeyword(String keyword, double lat, double lng,
 			Integer contentTypeId) {
-		return attractionRepository.findByAddr1ContainingOrAddr2Containing(keyword, keyword)
-				.stream()
-				.filter(e -> contentTypeId == null 
-                || e.getContentTypeEntity().getContentTypeId().equals(contentTypeId))
-				.map(a ->  {
+		return attractionRepository.findByAddr1ContainingOrAddr2Containing(keyword, keyword).stream()
+				.filter(e -> contentTypeId == null || e.getContentType().getId().equals(contentTypeId)).map(a -> {
 					AttractionResponse res = AttractionResponse.from(a);
 					double dist = calculateDistance(lat, lng, a.getLatitude(), a.getLongitude());
 					res.setDistance(dist);
 					return res;
-				})
-	            .sorted(Comparator.comparing(AttractionResponse::getDistance))
-	            .limit(100)
-	            .collect(Collectors.toList());
+				}).sorted(Comparator.comparing(AttractionResponse::getDistance)).limit(100)
+				.collect(Collectors.toList());
 	}
-
 
 	@Override
 	public List<AttractionResponse> findAttractionsByTitleKeyword(String keyword, double lat, double lng,
 			Integer contentTypeId) {
-		return attractionRepository.findByTitleContaining(keyword)
-				.stream()
-				.filter(e -> contentTypeId == null 
-                || e.getContentTypeEntity().getContentTypeId().equals(contentTypeId))
-				.map(a ->  {
+		return attractionRepository.findByTitleContaining(keyword).stream()
+				.filter(e -> contentTypeId == null || e.getContentType().getId().equals(contentTypeId)).map(a -> {
 					AttractionResponse res = AttractionResponse.from(a);
 					double dist = calculateDistance(lat, lng, a.getLatitude(), a.getLongitude());
 					res.setDistance(dist);
 					return res;
-				})
-				.filter(e -> e.getDistance() <= RADIUS_KM)
-	            .sorted(Comparator.comparing(AttractionResponse::getDistance))
-	            .limit(50)
-	            .collect(Collectors.toList());
+				}).filter(e -> e.getDistance() <= RADIUS_KM)
+				.sorted(Comparator.comparing(AttractionResponse::getDistance)).limit(50).collect(Collectors.toList());
 	}
-	
 
 	public static double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
 		double r = 6371; // 지구 반지름 (km)

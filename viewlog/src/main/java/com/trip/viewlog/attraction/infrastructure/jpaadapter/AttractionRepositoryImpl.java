@@ -1,13 +1,15 @@
-package com.trip.viewlog.attraction.infrastructure.jpaadapter;
-
-import com.trip.viewlog.attraction.application.outputport.AttractionRepository;
-import com.trip.viewlog.attraction.domain.Attraction;
-import com.trip.viewlog.attraction.infrastructure.jpaadapter.entity.AttractionEntity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+package com.trip.Attraction.infrastructure.jpaadapter;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Repository;
+
+import com.trip.Attraction.application.outputport.AttractionRepository;
+import com.trip.Attraction.domain.Attraction;
+import com.trip.Attraction.infrastructure.jpaadapter.entity.AttractionEntity;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
