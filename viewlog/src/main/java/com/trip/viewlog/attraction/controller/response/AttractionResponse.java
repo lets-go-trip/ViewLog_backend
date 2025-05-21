@@ -1,7 +1,6 @@
-package com.trip.Attraction.controller.response;
+package com.trip.viewlog.attraction.controller.response;
 
-import com.trip.Attraction.domain.Attraction;
-
+import com.trip.viewlog.attraction.domain.Attraction;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,6 @@
-package com.trip.Attraction.infrastructure.jpaadapter.entity;
+package com.trip.viewlog.attraction.infrastructure.jpaadapter.entity;
 
-import com.trip.Attraction.domain.ContentType;
-
+import com.trip.viewlog.attraction.domain.ContentType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

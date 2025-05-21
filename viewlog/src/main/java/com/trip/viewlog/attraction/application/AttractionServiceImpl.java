@@ -1,16 +1,14 @@
-package com.trip.Attraction.application;
+package com.trip.viewlog.attraction.application;
+
+import com.trip.viewlog.attraction.application.outputport.AttractionRepository;
+import com.trip.viewlog.attraction.controller.inputport.AttractionService;
+import com.trip.viewlog.attraction.controller.response.AttractionResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
-import com.trip.Attraction.application.outputport.AttractionRepository;
-import com.trip.Attraction.controller.inputport.AttractionService;
-import com.trip.Attraction.controller.response.AttractionResponse;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

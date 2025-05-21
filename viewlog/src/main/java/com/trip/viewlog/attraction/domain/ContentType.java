@@ -1,4 +1,4 @@
-package com.trip.Attraction.domain;
+package com.trip.viewlog.attraction.domain;
 
 import lombok.Builder;
 import lombok.Getter;

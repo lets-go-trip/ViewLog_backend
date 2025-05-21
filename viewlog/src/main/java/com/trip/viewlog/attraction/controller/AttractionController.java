@@ -1,17 +1,15 @@
-package com.trip.Attraction.controller;
+package com.trip.viewlog.attraction.controller;
 
-import java.util.List;
-
+import com.trip.viewlog.attraction.controller.inputport.AttractionService;
+import com.trip.viewlog.attraction.controller.response.AttractionResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trip.Attraction.controller.inputport.AttractionService;
-import com.trip.Attraction.controller.response.AttractionResponse;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/attractions")
