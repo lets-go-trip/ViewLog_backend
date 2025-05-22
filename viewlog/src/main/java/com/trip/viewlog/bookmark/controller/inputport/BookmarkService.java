@@ -1,9 +1,9 @@
 package com.trip.viewlog.bookmark.controller.inputport;
 
-import java.util.List;
-
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.user.domain.User;
+
+import java.util.List;
 
 public interface BookmarkService {
     /**

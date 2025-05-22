@@ -1,17 +1,15 @@
 package com.trip.viewlog.bookmark.infrastructure.jpaadapter;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
-
 import com.trip.viewlog.bookmark.application.outputport.BookmarkRepository;
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.bookmark.infrastructure.jpaadapter.entity.BookmarkEntity;
 import com.trip.viewlog.user.domain.User;
 import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
