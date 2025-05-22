@@ -1,4 +1,4 @@
-package com.trip.viewlog.bookmark.jpaadapter.entity;
+package com.trip.viewlog.bookmark.infrastructure.jpaadapter.entity;
 
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
