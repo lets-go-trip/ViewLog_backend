@@ -1,16 +1,20 @@
 package com.trip.viewlog.post.controller;
 
+import com.trip.viewlog.global.dto.CustomOAuth2User;
 import com.trip.viewlog.post.controller.inputport.PostService;
+import com.trip.viewlog.post.controller.request.CreatePostRequest;
+import com.trip.viewlog.post.controller.response.PostDetailResponse;
+import com.trip.viewlog.post.controller.response.PostListResponse;
 import com.trip.viewlog.post.domain.Post;
+import com.trip.viewlog.user.controller.inputport.UserService;
+import com.trip.viewlog.user.domain.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -18,10 +22,14 @@ import java.util.List;
 public class PostController {
 
 	private final PostService postService;
+	private final UserService userService;
 
-	@GetMapping("/all")
-	public ResponseEntity<List<Post>> findAllPosts() {
-		List<Post> result = postService.findAll();
+	@GetMapping
+	public ResponseEntity<Page<PostListResponse>> findAllPosts(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "9") int size
+	) {
+		Page<PostListResponse> result = postService.findAll(page,size);
 		if (result.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
@@ -31,11 +39,31 @@ public class PostController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
 		try {
-	        Post post = postService.findById(id);
-	        return ResponseEntity.ok(post);
-	    } catch (EntityNotFoundException e) {
-	        return ResponseEntity.notFound().build();
-	    }
+			Post post = postService.findById(id);
+			return ResponseEntity.ok(post);
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PostMapping("/create")
+	public ResponseEntity<PostDetailResponse> createPost(
+			@AuthenticationPrincipal CustomOAuth2User principal,         // JWT 전체를 주입
+			@RequestBody CreatePostRequest req
+	) {
+		// 1) 토큰에서 oauthInfo 클레임 꺼내기
+		String oauthInfo = principal.getOauthInfo();
+
+		// 2) DB에서 User 조회
+		User user = userService.getByOauthInfo(oauthInfo);
+
+		// 3) 서비스 호출
+		PostDetailResponse dto = postService.createPost(req, user);
+
+		// 4) 201 응답
+		return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.body(dto);
 	}
 
 }
