@@ -1,6 +1,7 @@
 package com.trip.viewlog.bookmark.controller;
 
 import com.trip.viewlog.bookmark.controller.inputport.BookmarkService;
+import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.global.dto.CustomOAuth2User;
 import com.trip.viewlog.user.controller.inputport.UserService;
 import com.trip.viewlog.user.domain.User;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookmarks")
@@ -60,5 +63,18 @@ public class BookmarkController {
         User user = userService.getByOauthInfo(oauthInfo);
         bookmarkService.remove(user, attractionId);
         return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/ids")
+    public ResponseEntity<List<Long>> getAllIdByUser(
+            @AuthenticationPrincipal CustomOAuth2User principal
+    ) {
+        String oauthInfo = principal.getOauthInfo();
+        User user = userService.getByOauthInfo(oauthInfo);
+        List<Long> results = bookmarkService.getAllByUser(user)
+        		.stream()
+                .map(Bookmark::getAttractionId)
+                .toList();
+        return ResponseEntity.ok(results);
     }
 }

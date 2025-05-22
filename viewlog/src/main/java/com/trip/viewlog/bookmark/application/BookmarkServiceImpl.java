@@ -1,12 +1,16 @@
 package com.trip.viewlog.bookmark.application;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.trip.viewlog.bookmark.application.outputport.BookmarkRepository;
 import com.trip.viewlog.bookmark.controller.inputport.BookmarkService;
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.user.domain.User;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +40,10 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public void remove(User user, Long attractionId) {
             bookmarkRepository.deleteByUserIdAndAttractionId(user, attractionId);
+    }
+    
+    @Override
+    public List<Bookmark> getAllByUser(User user) {
+            return bookmarkRepository.findByUser(user);
     }
 }

@@ -1,6 +1,9 @@
 package com.trip.viewlog.bookmark.controller.inputport;
 
+import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.user.domain.User;
+
+import java.util.List;
 
 public interface BookmarkService {
     /**
@@ -17,4 +20,6 @@ public interface BookmarkService {
      * 특정 사용자가 특정 명소 즐겨찾기 해제
      */
     void remove(User user, Long attractionId);
+    
+    List<Bookmark> getAllByUser(User user);
 }

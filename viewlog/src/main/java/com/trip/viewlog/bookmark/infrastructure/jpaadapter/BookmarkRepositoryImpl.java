@@ -8,6 +8,7 @@ import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -34,4 +35,14 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     	UserEntity userEntity = UserEntity.from(user);
         jpa.deleteByUserEntityAndAttractionId(userEntity, attractionId);
     }
+
+	@Override
+	public List<Bookmark> findByUser(User user) {
+		UserEntity userEntity = UserEntity.from(user);
+		return jpa.findByUserEntity(userEntity)
+				.stream()
+				.map(BookmarkEntity::toModel)
+				.toList();
+	}
+    
 }
