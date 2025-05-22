@@ -1,4 +1,4 @@
-package com.trip.viewlog.bookmark.jpaadapter.entity.domain;
+package com.trip.viewlog.bookmark.domain;
 
 import com.trip.viewlog.user.domain.User;
 import lombok.Builder;
