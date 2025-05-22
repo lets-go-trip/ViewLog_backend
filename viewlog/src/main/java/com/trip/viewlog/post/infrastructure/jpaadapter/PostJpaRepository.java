@@ -1,6 +1,5 @@
 package com.trip.viewlog.post.infrastructure.jpaadapter;
 
-import com.trip.viewlog.post.domain.Post;
 import com.trip.viewlog.post.infrastructure.jpaadapter.entity.PostEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
