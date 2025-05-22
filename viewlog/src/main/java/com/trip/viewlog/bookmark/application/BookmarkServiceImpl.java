@@ -35,8 +35,6 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public void remove(User user, Long attractionId) {
-        if (exists(user, attractionId)) {
             bookmarkRepository.deleteByUserIdAndAttractionId(user, attractionId);
-        }
     }
 }
