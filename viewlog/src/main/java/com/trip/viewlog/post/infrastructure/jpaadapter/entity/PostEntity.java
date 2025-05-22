@@ -1,6 +1,7 @@
 package com.trip.viewlog.post.infrastructure.jpaadapter.entity;
 
 import com.trip.viewlog.post.domain.Post;
+import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,11 +15,15 @@ public class PostEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id", nullable = false,
+			foreignKey = @ForeignKey(name = "fk_post_users"))
+	private UserEntity userEntity;
+
 	@Column(nullable = false, length = 255)
 	private String title;
 
-	@Lob
-	@Column(nullable = false)
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String content;
 
 	@Column(nullable = false, length = 100)
@@ -35,6 +40,7 @@ public class PostEntity {
 	public static PostEntity from(Post post) {
 		PostEntity entity = new PostEntity();
 		entity.id = post.getId();
+		entity.userEntity = UserEntity.from(post.getUser());
 		entity.title = post.getTitle();
 		entity.content = post.getContent();
 		entity.author = post.getAuthor();
@@ -44,7 +50,7 @@ public class PostEntity {
 	}
 
 	public Post toModel() {
-		return Post.builder().id(id).title(title).content(content).author(author).createdAt(createdAt)
+		return Post.builder().id(id).user(userEntity.toModel()).title(title).content(content).author(author).createdAt(createdAt)
 				.updatedAt(updatedAt).build();
 	}
 }
