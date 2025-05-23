@@ -62,9 +62,7 @@ public class PostServiceImpl implements PostService {
 			return 0;
 		}
 
-		post.setTitle(dto.getTitle());
-		post.setContent(dto.getContent());
-
+		post = post.update(dto);
 		postRepository.save(post);
 		return 1;
 	}
