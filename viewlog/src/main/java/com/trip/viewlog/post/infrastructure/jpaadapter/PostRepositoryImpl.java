@@ -7,7 +7,9 @@ import com.trip.viewlog.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class PostRepositoryImpl implements PostRepository {
 	}
 
 	@Override
+	@Modifying
+	@Transactional
 	public Post save(Post post) {
 		// 도메인 → 엔티티
 		PostEntity entity = PostEntity.from(post);
@@ -39,6 +43,8 @@ public class PostRepositoryImpl implements PostRepository {
 	}
 
 	@Override
+	@Modifying
+	@Transactional
 	public int deleteByUserAndpostId(User user, Long postId) {
 		return postJpaRepository.deleteByUserEntity_IdAndId(user.getId(), postId);
 	}

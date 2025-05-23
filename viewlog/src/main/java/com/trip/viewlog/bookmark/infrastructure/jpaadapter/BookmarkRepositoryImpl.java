@@ -6,7 +6,9 @@ import com.trip.viewlog.bookmark.infrastructure.jpaadapter.entity.BookmarkEntity
 import com.trip.viewlog.user.domain.User;
 import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +27,16 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     }
 
     @Override
+    @Modifying
+    @Transactional
     public void save(Bookmark bookmark) {
         BookmarkEntity entity = BookmarkEntity.from(bookmark);
         jpa.save(entity);
     }
 
     @Override
+    @Modifying
+    @Transactional
     public void deleteByUserIdAndAttractionId(User user, Long attractionId) {
         UserEntity userEntity = UserEntity.from(user);
         jpa.deleteByUserEntityAndAttractionId(userEntity, attractionId);
