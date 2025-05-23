@@ -52,17 +52,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (existUser == null) {
 
-            User user = userRepository.save(User.from(oauthInfo, oAuth2Response));
+            User user = User.from(oauthInfo, oAuth2Response);
 
-            return new CustomOAuth2User(user);
+            userRepository.save(user);
+
+            User updatedUser = userRepository.findByOauthInfo(user.getOauthInfo()).orElse(null);
+
+            return new CustomOAuth2User(updatedUser);
         }
         else {
 
             existUser.update(oAuth2Response);
 
-            User user = userRepository.save(existUser);
+            userRepository.save(existUser);
 
-            return new CustomOAuth2User(user);
+            User updatedUser = userRepository.findByOauthInfo(existUser.getOauthInfo()).orElse(null);
+
+            return new CustomOAuth2User(updatedUser);
         }
     }
 }

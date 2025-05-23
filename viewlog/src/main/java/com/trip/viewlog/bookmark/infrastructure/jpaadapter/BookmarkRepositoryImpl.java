@@ -19,7 +19,7 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     @Override
     public Optional<Bookmark> findByUserIdAndAttractionId(User user, Long attractionId) {
         // UserEntity proxy 로 연결
-    	UserEntity userEntity = UserEntity.from(user);
+         UserEntity userEntity = UserEntity.from(user);
         return jpa.findByUserEntityAndAttractionId(userEntity, attractionId)
                   .map(BookmarkEntity::toModel);
     }
@@ -32,17 +32,17 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
 
     @Override
     public void deleteByUserIdAndAttractionId(User user, Long attractionId) {
-    	UserEntity userEntity = UserEntity.from(user);
+        UserEntity userEntity = UserEntity.from(user);
         jpa.deleteByUserEntityAndAttractionId(userEntity, attractionId);
     }
 
-	@Override
-	public List<Bookmark> findByUser(User user) {
-		UserEntity userEntity = UserEntity.from(user);
-		return jpa.findByUserEntity(userEntity)
-				.stream()
-				.map(BookmarkEntity::toModel)
-				.toList();
-	}
-    
+    @Override
+    public List<Bookmark> findByUser(User user) {
+        UserEntity userEntity = UserEntity.from(user);
+        return jpa.findByUserEntity(userEntity)
+                .stream()
+                .map(BookmarkEntity::toModel)
+                .toList();
+    }
+
 }
