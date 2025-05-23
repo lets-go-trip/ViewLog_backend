@@ -37,9 +37,9 @@ public class PostController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
+	public ResponseEntity<PostDetailResponse> getPostById(@PathVariable("id") Long id) {
 		try {
-			Post post = postService.findById(id);
+			PostDetailResponse post = postService.findById(id);
 			return ResponseEntity.ok(post);
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
