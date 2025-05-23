@@ -15,7 +15,7 @@ public class FileEntity {
 
     private Long targetId;
 
-    private String fileName;
+    private String fileUrl;
 
     private String originalName;
 
@@ -26,7 +26,7 @@ public class FileEntity {
         FileEntity fileEntity = new FileEntity();
         fileEntity.id = file.getId();
         fileEntity.targetId = file.getTargetId();
-        fileEntity.fileName = file.getFileName();
+        fileEntity.fileUrl = file.getFileUrl();
         fileEntity.originalName = file.getOriginalName();
         fileEntity.fileType = file.getFileType();
         return fileEntity;
@@ -36,7 +36,7 @@ public class FileEntity {
         return File.builder()
                 .id(id)
                 .targetId(targetId)
-                .fileName(fileName)
+                .fileUrl(fileUrl)
                 .originalName(originalName)
                 .fileType(fileType)
                 .build();

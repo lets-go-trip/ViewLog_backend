@@ -74,10 +74,10 @@ public class ReviewServiceImpl implements ReviewService {
         Review savedReview = reviewRepository.save(review);
 
         if (images != null) {
-            List<String> fileNames = s3Service.uploadFile(images);
+            List<String> fileUrls = s3Service.uploadFile(images);
             for (int i = 0; i < images.size(); i++) {
                 File file = File.builder()
-                        .fileName(fileNames.get(i))
+                        .fileUrl(fileUrls.get(i))
                         .originalName(images.get(i).getOriginalFilename())
                         .fileType(FileType.REVIEW)
                         .targetId(savedReview.getId())
@@ -95,15 +95,15 @@ public class ReviewServiceImpl implements ReviewService {
         List<FileEntity> fileEntities = fileJpaRepository.findByFileTypeAndTargetId(FileType.REVIEW, reviewId);
 
         for (FileEntity fileEntity : fileEntities) {
-            s3Service.deleteFile(fileEntity.getFileName());
+            s3Service.deleteFile(fileEntity.getFileUrl());
             fileJpaRepository.delete(fileEntity);
         }
 
         if (images != null) {
-            List<String> fileNames = s3Service.uploadFile(images);
+            List<String> fileUrls = s3Service.uploadFile(images);
             for (int i = 0; i < images.size(); i++) {
                 File file = File.builder()
-                        .fileName(fileNames.get(i))
+                        .fileUrl(fileUrls.get(i))
                         .originalName(images.get(i).getOriginalFilename())
                         .fileType(FileType.REVIEW)
                         .targetId(review.getId())
@@ -119,7 +119,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId);
         List<FileEntity> fileEntities = fileJpaRepository.findByFileTypeAndTargetId(FileType.REVIEW, review.getId());
         for (FileEntity fileEntity : fileEntities) {
-            s3Service.deleteFile(fileEntity.getFileName());
+            s3Service.deleteFile(fileEntity.getFileUrl());
             fileJpaRepository.delete(fileEntity);
         }
         reviewRepository.delete(review);
