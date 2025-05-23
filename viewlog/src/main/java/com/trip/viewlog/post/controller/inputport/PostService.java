@@ -10,7 +10,11 @@ import org.springframework.data.domain.Page;
 public interface PostService {
 	Page<PostListResponse> findAll(int page, int size);
 
-	Post findById(Long id);
+	PostDetailResponse findById(Long id);
 
 	PostDetailResponse createPost(CreatePostRequest req, User user);
+
+	int remove(User user, Long postId);
+
+	int updatePost(User user, Long postId, CreatePostRequest dto);
 }

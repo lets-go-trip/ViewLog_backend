@@ -13,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +29,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post findById(Long id) {
-		return postRepository.findById(id)
+	public PostDetailResponse findById(Long id) {
+		Post p = postRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Post not found with id=" + id));
+		return PostDetailResponse.from(p);
 	}
 
 	@Override
@@ -41,5 +44,28 @@ public class PostServiceImpl implements PostService {
 
 		Post saved = postRepository.save(toSave);
 		return PostDetailResponse.from(saved);
+	}
+
+	@Override
+	public int remove(User user, Long postId) {
+		return postRepository.deleteByUserAndpostId(user, postId);
+	}
+
+	@Override
+	@Transactional
+	public int updatePost(User user, Long postId, CreatePostRequest dto) {
+		Post post = postRepository.findById(postId).orElse(null);
+		if (post == null) return 0;
+
+		// 작성자 확인
+		if (!post.getUser().getId().equals(user.getId())) {
+			return 0;
+		}
+
+		post.setTitle(dto.getTitle());
+		post.setContent(dto.getContent());
+
+		postRepository.save(post);
+		return 1;
 	}
 }
