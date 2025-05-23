@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AttractionJpaRepository extends JpaRepository<AttractionEntity, Integer> {
+public interface AttractionJpaRepository extends JpaRepository<AttractionEntity, Long> {
 
 	@EntityGraph(attributePaths = "contentTypeEntity")
 	List<AttractionEntity> findByLatitudeBetweenAndLongitudeBetween(double minLat, double maxLat, double minLng, double maxLng);

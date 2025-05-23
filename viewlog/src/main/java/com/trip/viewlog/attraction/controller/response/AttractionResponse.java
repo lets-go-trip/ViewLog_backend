@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AttractionResponse {
-	private Integer id;
+	private Long id;
 	private Integer contentTypeId;
     private String title;
     private Double latitude;

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -40,6 +41,11 @@ public class AttractionRepositoryImpl implements AttractionRepository {
                 .map(AttractionEntity::toModel)
                 .collect(Collectors.toList());
     }
-	
-	
+
+    @Override
+    public Optional<Attraction> findById(Long id) {
+        return attractionJpaRepository.findById(id).map(AttractionEntity::toModel);
+    }
+
+
 }

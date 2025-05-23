@@ -9,5 +9,5 @@ public interface UserRepository {
 
     Optional<User> findByOauthInfo(String oauthInfo);
 
-    void save(User user);
+    User save(User user);
 }
