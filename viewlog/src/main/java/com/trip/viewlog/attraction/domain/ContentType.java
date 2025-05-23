@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ContentType {
-    private Integer id;
-    private String name;
+    private final Integer id;
+    private final String name;
 }
