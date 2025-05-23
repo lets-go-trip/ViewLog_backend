@@ -48,4 +48,21 @@ public class PostServiceImpl implements PostService {
 	public int remove(User user, Long postId) {
 		return postRepository.deleteByUserAndpostId(user, postId);
 	}
+
+	@Override
+	public int updatePost(User user, Long postId, CreatePostRequest dto) {
+		Post post = postRepository.findById(postId).orElse(null);
+		if (post == null) return 0;
+
+		// 작성자 확인
+		if (!post.getUser().getId().equals(user.getId())) {
+			return 0;
+		}
+
+		post.setTitle(dto.getTitle());
+		post.setContent(dto.getContent());
+
+		postRepository.save(post);
+		return 1;
+	}
 }

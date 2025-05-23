@@ -84,4 +84,24 @@ public class PostController {
 		}
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> updatePost(
+			@AuthenticationPrincipal CustomOAuth2User principal,
+			@PathVariable("id") Long postId,
+			@RequestBody CreatePostRequest dto
+	) {
+		String oauthInfo = principal.getOauthInfo();
+		User user = userService.getByOauthInfo(oauthInfo);
+
+		int updated = postService.updatePost(user, postId, dto);
+
+		if (updated == 1) {
+			// 204 No Content: 정상 삭제
+			return ResponseEntity.noContent().build();
+		} else {
+			// 403 Forbidden: 권한 없거나 게시글 없음
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+	}
+
 }

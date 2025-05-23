@@ -15,4 +15,6 @@ public interface PostService {
 	PostDetailResponse createPost(CreatePostRequest req, User user);
 
 	int remove(User user, Long postId);
+
+	int updatePost(User user, Long postId, CreatePostRequest dto);
 }
