@@ -24,7 +24,7 @@ public class ReviewResponse {
                 .id(review.getId())
                 .username(review.getUser().getName())
                 .content(review.getContent())
-                .fileUrls(review.getReviewFiles().stream().map(File::getFileName).collect(Collectors.toList()))
+                .fileUrls(review.getReviewFiles().stream().map(File::getFileUrl).collect(Collectors.toList()))
                 .createdAt(review.getCreatedAt())
                 .updatedAt(review.getUpdatedAt())
                 .build();
