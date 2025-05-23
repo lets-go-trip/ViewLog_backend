@@ -5,22 +5,22 @@ import lombok.Getter;
 
 @Getter
 public class Attraction {
-	private Long id;
-    private Integer contentId;
-    private ContentType contentType;
-    private Integer areaCode;
-    private Integer siGunGuCode;
-    private String title;
-    private String firstImage1;
-    private String firstImage2;
-    private Integer mapLevel;
-    private Double latitude;
-    private Double longitude;
-    private String tel;
-    private String addr1;
-    private String addr2;
-    private String homepage;
-    private String overview;
+	private final Long id;
+    private final Integer contentId;
+    private final ContentType contentType;
+    private final Integer areaCode;
+    private final Integer siGunGuCode;
+    private final String title;
+    private final String firstImage1;
+    private final String firstImage2;
+    private final Integer mapLevel;
+    private final Double latitude;
+    private final Double longitude;
+    private final String tel;
+    private final String addr1;
+    private final String addr2;
+    private final String homepage;
+    private final String overview;
     
     @Builder
 	public Attraction(Long id, Integer contentId, ContentType contentType, Integer areaCode,
