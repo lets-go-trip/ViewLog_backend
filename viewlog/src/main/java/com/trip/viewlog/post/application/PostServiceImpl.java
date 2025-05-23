@@ -43,4 +43,9 @@ public class PostServiceImpl implements PostService {
 		Post saved = postRepository.save(toSave);
 		return PostDetailResponse.from(saved);
 	}
+
+	@Override
+	public int remove(User user, Long postId) {
+		return postRepository.deleteByUserAndpostId(user, postId);
+	}
 }

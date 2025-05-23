@@ -3,6 +3,7 @@ package com.trip.viewlog.post.infrastructure.jpaadapter;
 import com.trip.viewlog.post.application.outputport.PostRepository;
 import com.trip.viewlog.post.domain.Post;
 import com.trip.viewlog.post.infrastructure.jpaadapter.entity.PostEntity;
+import com.trip.viewlog.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,11 @@ public class PostRepositoryImpl implements PostRepository {
 		PostEntity saved = postJpaRepository.save(entity);
 		// 엔티티 → 도메인
 		return saved.toModel();
+	}
+
+	@Override
+	public int deleteByUserAndpostId(User user, Long postId) {
+		return postJpaRepository.deleteByUserEntity_IdAndId(user.getId(), postId);
 	}
 
 }

@@ -10,4 +10,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface PostJpaRepository extends JpaRepository<PostEntity, Long> , PagingAndSortingRepository<PostEntity, Long> {
     @EntityGraph(attributePaths = {"userEntity"})
     Page<PostEntity> findAll(Pageable pageable);
+
+    int deleteByUserEntity_IdAndId(Long userId, Long postId);
 }

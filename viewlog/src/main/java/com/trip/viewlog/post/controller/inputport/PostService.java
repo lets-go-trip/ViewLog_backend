@@ -13,4 +13,6 @@ public interface PostService {
 	PostDetailResponse findById(Long id);
 
 	PostDetailResponse createPost(CreatePostRequest req, User user);
+
+	int remove(User user, Long postId);
 }

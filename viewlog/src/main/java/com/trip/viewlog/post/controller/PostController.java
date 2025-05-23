@@ -66,4 +66,22 @@ public class PostController {
 				.body(dto);
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> remove(
+			@AuthenticationPrincipal CustomOAuth2User principal,
+			@PathVariable("id") Long PostId
+	) {
+		String oauthInfo = principal.getOauthInfo();
+		User user = userService.getByOauthInfo(oauthInfo);
+		int deleted = postService.remove(user, PostId);
+
+		if (deleted == 1) {
+			// 204 No Content: 정상 삭제
+			return ResponseEntity.noContent().build();
+		} else {
+			// 403 Forbidden: 권한 없거나 게시글 없음
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+	}
+
 }
