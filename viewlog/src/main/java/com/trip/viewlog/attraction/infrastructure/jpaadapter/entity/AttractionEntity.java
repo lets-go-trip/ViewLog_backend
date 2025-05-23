@@ -14,7 +14,7 @@ public class AttractionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
-    private Integer id;
+    private Long id;
 
     @Column(name = "content_id")
     private Integer contentId;

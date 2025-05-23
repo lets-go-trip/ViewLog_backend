@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -50,9 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (existUser == null) {
 
-            User user = User.from(oauthInfo, oAuth2Response);
-
-            userRepository.save(user);
+            User user = userRepository.save(User.from(oauthInfo, oAuth2Response));
 
             return new CustomOAuth2User(user);
         }
@@ -60,9 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             existUser.update(oAuth2Response);
 
-            userRepository.save(existUser);
-
-            User user = User.from(oauthInfo, oAuth2Response);
+            User user = userRepository.save(existUser);
 
             return new CustomOAuth2User(user);
         }

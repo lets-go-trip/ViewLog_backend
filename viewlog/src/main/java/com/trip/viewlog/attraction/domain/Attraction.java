@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class Attraction {
-	private Integer id;
+	private Long id;
     private Integer contentId;
     private ContentType contentType;
     private Integer areaCode;
@@ -23,7 +23,7 @@ public class Attraction {
     private String overview;
     
     @Builder
-	public Attraction(Integer id, Integer contentId, ContentType contentType, Integer areaCode,
+	public Attraction(Long id, Integer contentId, ContentType contentType, Integer areaCode,
 			Integer siGunGuCode, String title, String firstImage1, String firstImage2, Integer mapLevel,
 			Double latitude, Double longitude, String tel, String addr1, String addr2, String homepage,
 			String overview) {
