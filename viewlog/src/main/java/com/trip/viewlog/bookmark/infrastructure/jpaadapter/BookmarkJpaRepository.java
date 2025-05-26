@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookmarkJpaRepository extends JpaRepository<BookmarkEntity, Long> {
-    Optional<BookmarkEntity> findByUserEntityAndAttractionId(UserEntity userEntity, Long attractionId);
     void deleteByUserEntityAndAttractionId(UserEntity userEntity, Long attractionId);
     List<BookmarkEntity> findByUserEntity(UserEntity userEntity);
+    Optional<BookmarkEntity> findByUserEntity_IdAndAttractionId(Long userId, Long attractionId);
 }
