@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "post")
@@ -50,7 +51,12 @@ public class PostEntity {
 	}
 
 	public Post toModel() {
-		return Post.builder().id(id).user(userEntity.toModel()).title(title).content(content).author(author).createdAt(createdAt)
+		return Post.builder().id(id).user(userEntity.toModel())
+				.title(title)
+				.content(content)
+				.author(author)
+				.postFiles(new ArrayList<>())
+				.createdAt(createdAt)
 				.updatedAt(updatedAt).build();
 	}
 }

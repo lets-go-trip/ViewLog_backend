@@ -5,9 +5,6 @@ import com.trip.viewlog.post.controller.inputport.PostService;
 import com.trip.viewlog.post.controller.request.CreatePostRequest;
 import com.trip.viewlog.post.controller.response.PostDetailResponse;
 import com.trip.viewlog.post.controller.response.PostListResponse;
-import com.trip.viewlog.post.domain.Post;
-import com.trip.viewlog.user.controller.inputport.UserService;
-import com.trip.viewlog.user.domain.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
 	private final PostService postService;
-	private final UserService userService;
 
 	@GetMapping
 	public ResponseEntity<Page<PostListResponse>> findAllPosts(
@@ -49,16 +48,11 @@ public class PostController {
 	@PostMapping("/create")
 	public ResponseEntity<PostDetailResponse> createPost(
 			@AuthenticationPrincipal CustomOAuth2User principal,         // JWT 전체를 주입
-			@RequestBody CreatePostRequest req
+			@ModelAttribute CreatePostRequest req,
+			@RequestPart(required = false) List<MultipartFile> files
 	) {
-		// 1) 토큰에서 oauthInfo 클레임 꺼내기
-		String oauthInfo = principal.getOauthInfo();
-
-		// 2) DB에서 User 조회
-		User user = userService.getByOauthInfo(oauthInfo);
-
 		// 3) 서비스 호출
-		PostDetailResponse dto = postService.createPost(req, user);
+		PostDetailResponse dto = postService.createPost(req, principal.getUserId(), files);
 
 		// 4) 201 응답
 		return ResponseEntity
@@ -71,9 +65,7 @@ public class PostController {
 			@AuthenticationPrincipal CustomOAuth2User principal,
 			@PathVariable("id") Long PostId
 	) {
-		String oauthInfo = principal.getOauthInfo();
-		User user = userService.getByOauthInfo(oauthInfo);
-		int deleted = postService.remove(user, PostId);
+		int deleted = postService.remove(principal.getUserId(), PostId);
 
 		if (deleted == 1) {
 			// 204 No Content: 정상 삭제
@@ -88,12 +80,10 @@ public class PostController {
 	public ResponseEntity<Void> updatePost(
 			@AuthenticationPrincipal CustomOAuth2User principal,
 			@PathVariable("id") Long postId,
-			@RequestBody CreatePostRequest dto
+			@ModelAttribute CreatePostRequest dto,
+			@RequestPart(required = false) List<MultipartFile> files
 	) {
-		String oauthInfo = principal.getOauthInfo();
-		User user = userService.getByOauthInfo(oauthInfo);
-
-		int updated = postService.updatePost(user, postId, dto);
+		int updated = postService.updatePost(principal.getUserId(), postId, dto, files);
 
 		if (updated == 1) {
 			// 204 No Content: 정상 삭제

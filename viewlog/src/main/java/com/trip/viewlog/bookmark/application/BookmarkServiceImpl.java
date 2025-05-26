@@ -1,36 +1,40 @@
 package com.trip.viewlog.bookmark.application;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.trip.viewlog.bookmark.application.outputport.BookmarkRepository;
 import com.trip.viewlog.bookmark.controller.inputport.BookmarkService;
 import com.trip.viewlog.bookmark.domain.Bookmark;
+import com.trip.viewlog.user.application.outputport.UserRepository;
 import com.trip.viewlog.user.domain.User;
-
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public boolean exists(User user, Long attractionId) {
+    public boolean exists(Long userId, Long attractionId) {
         return bookmarkRepository
-                .findByUserIdAndAttractionId(user, attractionId)
+                .findByUserIdAndAttractionId(userId, attractionId)
                 .isPresent();
     }
 
     @Override
-    public void add(User user, Long attractionId) {
+    public void add(Long userId, Long attractionId) {
         // 중복 방지 체크
-        if (!exists(user, attractionId)) {
+        if (!exists(userId, attractionId)) {
+        	User u = userRepository.findById(userId)
+        		    .orElseThrow(() -> new EntityNotFoundException("User not found: " + userId));
+        	
             Bookmark bookmark = Bookmark.builder()
-                    .user(user)
+                    .user(u)
                     .attractionId(attractionId)
                     .build();
             bookmarkRepository.save(bookmark);

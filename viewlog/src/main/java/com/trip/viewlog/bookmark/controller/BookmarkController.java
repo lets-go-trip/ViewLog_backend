@@ -29,9 +29,7 @@ public class BookmarkController {
             @AuthenticationPrincipal CustomOAuth2User principal,
             @PathVariable("id") Long attractionId
     ) {
-        String oauthInfo = principal.getOauthInfo();
-        User user = userService.getByOauthInfo(oauthInfo);
-        boolean exists = bookmarkService.exists(user, attractionId);
+        boolean exists = bookmarkService.exists(principal.getUserId(), attractionId);
         return ResponseEntity.ok(exists);
     }
 
@@ -44,9 +42,7 @@ public class BookmarkController {
             @AuthenticationPrincipal CustomOAuth2User principal,
             @PathVariable("id") Long attractionId
     ) {
-        String oauthInfo = principal.getOauthInfo();
-        User user = userService.getByOauthInfo(oauthInfo);
-        bookmarkService.add(user, attractionId);
+        bookmarkService.add(principal.getUserId(), attractionId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

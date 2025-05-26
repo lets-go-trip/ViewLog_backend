@@ -19,11 +19,10 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     private final BookmarkJpaRepository jpa;
 
     @Override
-    public Optional<Bookmark> findByUserIdAndAttractionId(User user, Long attractionId) {
+    public Optional<Bookmark> findByUserIdAndAttractionId(Long userId, Long attractionId) {
         // UserEntity proxy 로 연결
-         UserEntity userEntity = UserEntity.from(user);
-        return jpa.findByUserEntityAndAttractionId(userEntity, attractionId)
-                  .map(BookmarkEntity::toModel);
+        return jpa.findByUserEntity_IdAndAttractionId(userId, attractionId)
+        		.map(BookmarkEntity::toModel);
     }
 
     @Override
