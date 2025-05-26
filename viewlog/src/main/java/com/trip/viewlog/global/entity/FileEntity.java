@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
+@Table(name = "files")
 @Getter
 public class FileEntity {
 
