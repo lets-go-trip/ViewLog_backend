@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 
 @Entity
+@Table(name = "reviews")
 @Getter
 public class ReviewEntity extends BaseTimeEntity {
 

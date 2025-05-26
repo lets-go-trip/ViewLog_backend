@@ -2,9 +2,12 @@ package com.trip.viewlog.review.controller;
 
 import com.trip.viewlog.global.dto.CustomOAuth2User;
 import com.trip.viewlog.review.controller.inputport.ReviewService;
+import com.trip.viewlog.review.controller.inputport.ReviewSummaryService;
 import com.trip.viewlog.review.controller.request.ReviewRequest;
 import com.trip.viewlog.review.controller.response.ReviewResponse;
+import com.trip.viewlog.review.controller.response.ReviewSummaryResponse;
 import com.trip.viewlog.review.domain.Review;
+import com.trip.viewlog.review.domain.ReviewSummary;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/review")
 public class ReviewController {
     private final ReviewService reviewService;
+    private final ReviewSummaryService reviewSummaryService;
 
     @Operation(summary = "장소 리뷰 리스트 조회 API")
     @GetMapping("")
@@ -79,5 +83,12 @@ public class ReviewController {
         }
         reviewService.delete(reviewId);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "리뷰 요약 API")
+    @GetMapping("/summary/{attractionId}")
+    public ResponseEntity<ReviewSummaryResponse> getSummary(@PathVariable Long attractionId) {
+        ReviewSummary reviewSummary = reviewSummaryService.getOrCreateOrUpdate(attractionId);
+        return new ResponseEntity<>(ReviewSummaryResponse.from(reviewSummary), HttpStatus.OK);
     }
 }
