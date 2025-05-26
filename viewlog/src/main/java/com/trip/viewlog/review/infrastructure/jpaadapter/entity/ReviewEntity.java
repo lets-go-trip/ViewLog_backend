@@ -1,15 +1,20 @@
 package com.trip.viewlog.review.infrastructure.jpaadapter.entity;
 
-import com.trip.viewlog.global.domain.File;
-import com.trip.viewlog.review.domain.Review;
+import java.util.ArrayList;
+
 import com.trip.viewlog.attraction.infrastructure.jpaadapter.entity.AttractionEntity;
 import com.trip.viewlog.global.entity.BaseTimeEntity;
+import com.trip.viewlog.review.domain.Review;
 import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
-import jakarta.persistence.*;
-import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
 
 @Entity
 @Getter
