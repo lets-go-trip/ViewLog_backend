@@ -59,11 +59,12 @@ public class BookmarkController {
     }
     
     @GetMapping("/ids")
-    public List<Long> getBookmarkIds(@AuthenticationPrincipal CustomOAuth2User principal) {
-        return bookmarkService.getAllByUser(principal.getUserId())
+    public ResponseEntity<List<Long>> getBookmarkIds(@AuthenticationPrincipal CustomOAuth2User principal) {
+        List<Long> results = bookmarkService.getAllByUser(principal.getUserId())
                              .stream()
                              .map(a->a.getAttraction().getId())
                              .toList();
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/my")
