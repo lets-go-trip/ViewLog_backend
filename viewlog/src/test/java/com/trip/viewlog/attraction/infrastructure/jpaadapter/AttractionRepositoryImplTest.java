@@ -28,10 +28,10 @@ public class AttractionRepositoryImplTest {
     void setup() {
     	ContentTypeEntity contentTypeEntity = new ContentTypeEntity(12,"관광지");
     	
-    	AttractionEntity sample1 = new AttractionEntity(1,12,"제주 해변",contentTypeEntity,1,1
+    	AttractionEntity sample1 = new AttractionEntity(1L,12,"제주 해변",contentTypeEntity,1,1
     			,null,null,null,33.45,126.56,null,"제주도","서귀포시",null,null);
     	
-    	AttractionEntity sample2 = new AttractionEntity(2,12,"한라산",contentTypeEntity,1,1
+    	AttractionEntity sample2 = new AttractionEntity(2L,12,"한라산",contentTypeEntity,1,1
     			,null,null,null,33.36,126.53,null,"제주도","한라산로",null,null);
     	
     	lenient().when(jpaRepo.findByLatitudeBetweenAndLongitudeBetween(33.4, 33.5, 126.5, 126.6))
