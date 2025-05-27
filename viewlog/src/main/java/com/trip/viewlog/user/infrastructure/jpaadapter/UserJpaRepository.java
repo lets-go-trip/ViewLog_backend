@@ -1,10 +1,9 @@
 package com.trip.viewlog.user.infrastructure.jpaadapter;
 
-import java.util.Optional;
-
+import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
+import java.util.Optional;
 
 public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByOauthInfo(String oauthInfo);

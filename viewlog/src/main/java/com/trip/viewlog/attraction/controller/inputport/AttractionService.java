@@ -10,4 +10,6 @@ public interface AttractionService {
 	List<AttractionResponse> findAttractionsByAddressKeyword(String keyword, double lat, double lng, Integer contentTypeId);
 	
 	List<AttractionResponse> findAttractionsByTitleKeyword(String keyword, double lat, double lng, Integer contentTypeId);
+
+	AttractionResponse findById(Long id);
 }

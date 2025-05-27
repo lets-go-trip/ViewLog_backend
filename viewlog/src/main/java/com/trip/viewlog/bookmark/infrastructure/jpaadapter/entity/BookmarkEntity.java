@@ -1,5 +1,6 @@
 package com.trip.viewlog.bookmark.infrastructure.jpaadapter.entity;
 
+import com.trip.viewlog.attraction.infrastructure.jpaadapter.entity.AttractionEntity;
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import jakarta.persistence.*;
@@ -24,8 +25,13 @@ public class BookmarkEntity {
 	@JoinColumn(name = "users_id", nullable = false, foreignKey = @ForeignKey(name = "fk_bm_user"))
 	private UserEntity userEntity;
 
-	@Column(name = "attraction_id", nullable = false)
-	private Long attractionId;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "attraction_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_bm_attraction")
+    )
+    private AttractionEntity attractionEntity;
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)
@@ -35,13 +41,13 @@ public class BookmarkEntity {
 		BookmarkEntity entity = new BookmarkEntity();
 		entity.id = bookmark.getId(); // optional
 		entity.userEntity = UserEntity.from(bookmark.getUser());
-		entity.attractionId = bookmark.getAttractionId();
+		entity.attractionEntity = AttractionEntity.from(bookmark.getAttraction());
 		entity.createdAt = bookmark.getCreatedAt();
 		return entity;
 	}
 
 	public Bookmark toModel() {
-		return Bookmark.builder().id(id).user(userEntity.toModel()).attractionId(attractionId)
+		return Bookmark.builder().id(id).user(userEntity.toModel()).attraction(attractionEntity.toModel())
 				.createdAt(createdAt).build();
 	}
 }

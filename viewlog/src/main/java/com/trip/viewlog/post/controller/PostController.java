@@ -93,5 +93,16 @@ public class PostController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 	}
+	
+	@GetMapping("/my")
+	public ResponseEntity<List<PostListResponse>> getPostByMyId(
+			@AuthenticationPrincipal CustomOAuth2User principal) {
+		try {
+			List<PostListResponse> posts = postService.findByUserId(principal.getUserId());
+			return ResponseEntity.ok(posts);
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 }

@@ -3,8 +3,6 @@ package com.trip.viewlog.bookmark.infrastructure.jpaadapter;
 import com.trip.viewlog.bookmark.application.outputport.BookmarkRepository;
 import com.trip.viewlog.bookmark.domain.Bookmark;
 import com.trip.viewlog.bookmark.infrastructure.jpaadapter.entity.BookmarkEntity;
-import com.trip.viewlog.user.domain.User;
-import com.trip.viewlog.user.infrastructure.jpaadapter.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
@@ -21,7 +19,7 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     @Override
     public Optional<Bookmark> findByUserIdAndAttractionId(Long userId, Long attractionId) {
         // UserEntity proxy 로 연결
-        return jpa.findByUserEntity_IdAndAttractionId(userId, attractionId)
+        return jpa.findByUserEntity_IdAndAttractionEntity_Id(userId, attractionId)
         		.map(BookmarkEntity::toModel);
     }
 
@@ -36,15 +34,13 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
     @Override
     @Modifying
     @Transactional
-    public void deleteByUserIdAndAttractionId(User user, Long attractionId) {
-        UserEntity userEntity = UserEntity.from(user);
-        jpa.deleteByUserEntityAndAttractionId(userEntity, attractionId);
+    public void deleteByUserIdAndAttractionId(Long userId, Long attractionId) {
+        jpa.deleteByUserEntity_IdAndAttractionEntity_Id(userId, attractionId);
     }
 
     @Override
-    public List<Bookmark> findByUser(User user) {
-        UserEntity userEntity = UserEntity.from(user);
-        return jpa.findByUserEntity(userEntity)
+    public List<Bookmark> findByUserEntity_Id(Long userId) {
+        return jpa.findByUserEntity_Id(userId)
                 .stream()
                 .map(BookmarkEntity::toModel)
                 .toList();

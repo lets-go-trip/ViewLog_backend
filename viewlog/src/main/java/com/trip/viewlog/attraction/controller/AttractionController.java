@@ -58,4 +58,13 @@ public class AttractionController {
         }
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/searchById")
+    public ResponseEntity<AttractionResponse> searchById(@RequestParam Long id) {
+    	AttractionResponse result = attractionService.findById(id);
+        if (result==null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(result);
+    }
 }
