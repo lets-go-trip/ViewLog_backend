@@ -1,5 +1,7 @@
 package com.trip.viewlog.bookmark.application;
 
+import com.trip.viewlog.attraction.application.outputport.AttractionRepository;
+import com.trip.viewlog.attraction.domain.Attraction;
 import com.trip.viewlog.bookmark.application.outputport.BookmarkRepository;
 import com.trip.viewlog.bookmark.controller.inputport.BookmarkService;
 import com.trip.viewlog.bookmark.domain.Bookmark;
@@ -17,6 +19,7 @@ import java.util.List;
 @Transactional
 public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+    private final AttractionRepository attractionRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -32,22 +35,23 @@ public class BookmarkServiceImpl implements BookmarkService {
         if (!exists(userId, attractionId)) {
         	User u = userRepository.findById(userId)
         		    .orElseThrow(() -> new EntityNotFoundException("User not found: " + userId));
-        	
+        	Attraction a = attractionRepository.findById(attractionId)
+        			.orElse(null);
             Bookmark bookmark = Bookmark.builder()
                     .user(u)
-                    .attractionId(attractionId)
+                    .attraction(a)
                     .build();
             bookmarkRepository.save(bookmark);
         }
     }
 
     @Override
-    public void remove(User user, Long attractionId) {
-            bookmarkRepository.deleteByUserIdAndAttractionId(user, attractionId);
+    public void remove(Long userId, Long attractionId) {
+            bookmarkRepository.deleteByUserIdAndAttractionId(userId,attractionId);
     }
     
     @Override
-    public List<Bookmark> getAllByUser(User user) {
-            return bookmarkRepository.findByUser(user);
+    public List<Bookmark> getAllByUser(Long userId) {
+            return bookmarkRepository.findByUserEntity_Id(userId);
     }
 }

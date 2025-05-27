@@ -1,10 +1,9 @@
 package com.trip.viewlog.bookmark.controller;
 
 import com.trip.viewlog.bookmark.controller.inputport.BookmarkService;
-import com.trip.viewlog.bookmark.domain.Bookmark;
+import com.trip.viewlog.bookmark.controller.response.BookmarkListResponse;
 import com.trip.viewlog.global.dto.CustomOAuth2User;
 import com.trip.viewlog.user.controller.inputport.UserService;
-import com.trip.viewlog.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,21 +54,25 @@ public class BookmarkController {
             @AuthenticationPrincipal CustomOAuth2User principal,
             @PathVariable("id") Long attractionId
     ) {
-        String oauthInfo = principal.getOauthInfo();
-        User user = userService.getByOauthInfo(oauthInfo);
-        bookmarkService.remove(user, attractionId);
+        bookmarkService.remove(principal.getUserId(), attractionId);
         return ResponseEntity.ok().build();
     }
     
     @GetMapping("/ids")
-    public ResponseEntity<List<Long>> getAllIdByUser(
+    public List<Long> getBookmarkIds(@AuthenticationPrincipal CustomOAuth2User principal) {
+        return bookmarkService.getAllByUser(principal.getUserId())
+                             .stream()
+                             .map(a->a.getAttraction().getId())
+                             .toList();
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<BookmarkListResponse>> getAllIdByUser(
             @AuthenticationPrincipal CustomOAuth2User principal
     ) {
-        String oauthInfo = principal.getOauthInfo();
-        User user = userService.getByOauthInfo(oauthInfo);
-        List<Long> results = bookmarkService.getAllByUser(user)
+        List<BookmarkListResponse> results = bookmarkService.getAllByUser(principal.getUserId())
         		.stream()
-                .map(Bookmark::getAttractionId)
+                .map(BookmarkListResponse::from)
                 .toList();
         return ResponseEntity.ok(results);
     }
