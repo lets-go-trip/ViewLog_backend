@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,6 +45,13 @@ public class PostRepositoryImpl implements PostRepository {
 	@Transactional
 	public int deleteByUsersIdAndpostId(Long userId, Long postId) {
 		return postJpaRepository.deleteByUserEntity_IdAndId(userId, postId);
+	}
+
+	@Override
+	public List<Post> findByUserId(Long userId) {
+		return postJpaRepository.findByUserEntity_Id(userId)
+				.stream()
+				.map(PostEntity::toModel).toList();
 	}
 
 }

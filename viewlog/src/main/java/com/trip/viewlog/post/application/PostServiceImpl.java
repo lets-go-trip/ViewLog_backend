@@ -161,6 +161,52 @@ public class PostServiceImpl implements PostService {
 		postRepository.save(post);
 		return 1;
 	}
+
+	@Override
+	public List<PostListResponse> findByUserId(Long userId) {
+	    // 1) 포스트 리스트 조회
+	    List<Post> pList = postRepository.findByUserId(userId);
+
+	    // 2) Post ID만 꺼내기
+	    List<Long> postIds = pList.stream()
+	        .map(Post::getId)
+	        .toList();
+
+	    // 3) 포스트가 하나도 없으면 DTO로 바로 변환
+	    if (postIds.isEmpty()) {
+	        return pList.stream()
+	            .map(PostListResponse::from)
+	            .toList();
+	    }
+
+	    // 4) 해당 포스트들에 속한 모든 파일 조회 (쿼리 #2)
+	    List<FileEntity> files = fileJpaRepository
+	        .findByFileTypeAndTargetIdIn(FileType.POST, postIds);
+
+	    // 5) 포스트 ID별로 첫 번째 파일 URL만 뽑아서 맵으로 저장
+	    Map<Long, String> thumbnailMap = files.stream()
+	        .collect(Collectors.groupingBy(
+	            FileEntity::getTargetId,
+	            Collectors.collectingAndThen(
+	                Collectors.toList(),
+	                lst -> lst.get(0).toModel().getFileUrl()
+	            )
+	        ));
+
+	    // 6) 최종 DTO 변환
+	    return pList.stream()
+	        .map(post -> {
+	            String thumb = thumbnailMap.getOrDefault(post.getId(), "");
+	            return PostListResponse.builder()
+	                .id(post.getId())
+	                .title(post.getTitle())
+	                .author(post.getAuthor())
+	                .fileUrl(thumb)
+	                .createdAt(post.getCreatedAt())
+	                .build();
+	        })
+	        .toList();
+	}
 	
 	
 }
