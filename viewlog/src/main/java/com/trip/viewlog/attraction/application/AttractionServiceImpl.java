@@ -73,4 +73,9 @@ public class AttractionServiceImpl implements AttractionService {
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		return r * c;
 	}
+
+	@Override
+	public AttractionResponse findById(Long id) {
+		return AttractionResponse.from(attractionRepository.findById(id).orElse(null));
+	}
 }
