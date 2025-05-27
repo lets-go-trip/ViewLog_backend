@@ -40,10 +40,10 @@ public class ReviewController {
 
     @Operation(summary = "사용자 리뷰 리스트 조회 API")
     @GetMapping("/my")
-    public ResponseEntity<List<ReviewResponse>> getMyReviews(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+    public ResponseEntity<List<ReviewMineResponse>> getMyReviews(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
         List<Review> reviews = reviewService.getAllByUser(oAuth2User.getOauthInfo());
-        List<ReviewResponse> reviewResponses = reviews.stream()
-                .map(ReviewResponse::from)
+        List<ReviewMineResponse> reviewResponses = reviews.stream()
+                .map(ReviewMineResponse::from)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(reviewResponses, HttpStatus.OK);
     }
